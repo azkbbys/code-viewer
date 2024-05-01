@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>代码渲染</title>
+    <!-- 引入highlight.js的样式文件 -->
+    <link rel="stylesheet" href="./files/default.min.css">
+</head>
+<body>
+<div id="cnblogs_post_body">
+    <h2>代码渲染</h2>
+    <p>输入代码：</p>
+    <textarea id="code-input" style="width: 100%; height: 200px;"></textarea>
+    <p>代码类型：</p>
+    <select id="code-type">
+        <option value="html">html</option>
+        <option value="css">css</option>
+        <option value="javascript">javascript</option>
+        <option value="python">python</option>
+        <option value="markdown">markdown</option>
+    </select>
+    <button style="position: absolute; top: 10px; right: 70px;" onclick="embedCode()">嵌入代码</button>
+    <p>渲染结果：</p>
+    <div style="position: relative; width: 100%; height: 500px;">
+        <div id="code-output" style="width: 100%; height: 100%;"></div>
+        <button style="position: absolute; top: 10px; right: 10px;" onclick="copyCode()">复制</button>
+    </div>
+</div>
+<!-- 引入highlight.js的脚本文件 -->
+<script src="./files/highlight.min.js"></script>
+<script>
+    // 监听textarea输入变化，重新渲染代码
+    document.getElementById("code-input").addEventListener("input", function() {
+        renderCode();
+    });
+
+    // 初始化页面时渲染一次代码
+    renderCode();
+
+    // 渲染代码的函数
+    function renderCode() {
+        // 获取输入代码和代码类型
+        var codeInput = document.getElementById("code-input").value;
+        var codeType = document.getElementById("code-type").value;
+
+        // 如果输入内容为空，则显示提示
+        if (codeInput.trim() === '') {
+            document.getElementById("code-output").innerHTML = "等待输入内容...";
+        } else {
+            // 转义HTML代码，替换特殊字符
+            codeInput = codeInput.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            // 渲染代码
+            var codeOutput = document.getElementById("code-output");
+            codeOutput.innerHTML = '<pre><code class="language-' + codeType + '">' + codeInput + '</code></pre>';
+            // 代码高亮
+            hljs.highlightBlock(codeOutput.getElementsByTagName('code')[0]);
+        }
+    }
+
+    // 复制代码的函数
+    function copyCode() {
+        var codeText = document.getElementById("code-output").textContent;
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = codeText;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextArea);
+        alert("代码已复制到剪贴板");
+    }
+
+    // 嵌入代码的函数
+    function embedCode() {
+        // 获取输入代码
+        var codeText = document.getElementById("code-input").value;
+        var codeType = document.getElementById("code-type").value;
+        // 转义HTML代码，替换特殊字符
+        codeText = codeText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        // 嵌入代码格式为：<iframe src="https://azkbbys.github.io/code-viewer/code-viewer.html?code=[代码文本]&type=[代码类型]" frameborder="0" scrolling="no" width="100%" height="500px"></iframe>
+        var embedCode = '<iframe src="https://azkbbys.github.io/code-viewer/code-viewer.html?code=' + encodeURIComponent(codeText) + '&type=' + document.getElementById("code-type").value + '" frameborder="0" scrolling="no" width="100%" height="500px"></iframe>';
+        // 复制嵌入代码到剪贴板
+        var tempTextArea = document.createElement('textarea');
+        tempTextArea.value = embedCode;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextArea);
+        alert("嵌入代码已复制到剪贴板");
+    }
+</script>
+</body>
+</html>

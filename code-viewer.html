@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>代码渲染</title>
+    <!-- 引入highlight.js的样式文件 -->
+    <link rel="stylesheet" href="./files/default.min.css">
+    <style>
+        body {
+            background-color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+        <button onclick="copyCode()">复制</button>
+    </div>
+    <div id="code-output" style="width: 100%; height: 500px;"></div>
+    <!-- 引入highlight.js的脚本文件 -->
+    <script src="./files/highlight.min.js"></script>
+    <script>
+        // 解析URL中的参数
+        var urlParams = new URLSearchParams(window.location.search);
+        var codeParam = urlParams.get('code');
+        var typeParam = urlParams.get('type');
+
+        // 复制代码的函数
+        function copyCode() {
+            var codeText = document.getElementById("code-output").innerText;
+            navigator.clipboard.writeText(codeText).then(function() {
+                alert("代码已复制到剪贴板！");
+            }, function(err) {
+                console.error('无法复制代码: ', err);
+            });
+        }
+
+        // 渲染代码的函数
+        function renderCode() {
+            // 获取输入代码和代码类型
+            var codeInput = codeParam || ''; // 从URL参数中获取代码，如果没有则为空
+            var codeType = typeParam || 'html'; // 从URL参数中获取代码类型，如果没有则默认为html
+
+            // 如果输入内容为空，则显示提示
+            if (codeInput.trim() === '') {
+                document.getElementById("code-output").innerHTML = "<font color='white'>未提供内容...</font>";
+            } else {
+                // 转义HTML代码，替换特殊字符
+                codeInput = codeInput.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                // 渲染代码
+                var codeOutput = document.getElementById("code-output");
+                codeOutput.innerHTML = '<pre><code class="language-' + codeType + '">' + codeInput + '</code></pre>';
+                // 代码高亮
+                hljs.highlightBlock(codeOutput.getElementsByTagName('code')[0]);
+            }
+        }
+
+        // 初始化页面时渲染一次代码
+        renderCode();
+    </script>
+</body>
+</html>
