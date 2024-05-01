@@ -48,7 +48,7 @@
             document.getElementById("code-output").innerHTML = "等待输入内容...";
         } else {
             // 转义HTML代码，替换特殊字符
-            codeInput = codeInput.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            // codeInput = codeInput.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             // 渲染代码
             var codeOutput = document.getElementById("code-output");
             codeOutput.innerHTML = '<pre><code class="language-' + codeType + '">' + codeInput + '</code></pre>';
