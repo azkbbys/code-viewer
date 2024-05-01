@@ -24,7 +24,7 @@
         var codeParam = urlParams.get('code');
         var typeParam = urlParams.get('type');
         // 将&gt;和&lt;替换成>和<
-        codeParam = codeParam.replace(/&gt;/g, '>').replace(/&lt;/g, '<');
+        codeParam = codeParam.replace('&gt;', '>').replace('&lt;', '<');
 
         // 复制代码的函数
         function copyCode() {
