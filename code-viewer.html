@@ -24,8 +24,9 @@
         var codeParam = urlParams.get('code');
         var typeParam = urlParams.get('type');
         // 反向转义HTML代码，替换特殊字符
-        codeParam = decodeURIComponent(codeParam);
-        typeParam = decodeURIComponent(typeParam);
+        // codeParam = decodeURIComponent(codeParam);
+        // typeParam = decodeURIComponent(typeParam);
+        // console.log(codeParam, typeParam);
 
         // 复制代码的函数
         function copyCode() {

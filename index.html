@@ -75,7 +75,7 @@
         var codeText = document.getElementById("code-input").value;
         var codeType = document.getElementById("code-type").value;
         // 转义HTML代码，替换特殊字符
-        codeText = codeText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        // codeText = codeText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         // 嵌入代码格式为：<iframe src="https://azkbbys.github.io/code-viewer/code-viewer.html?code=[代码文本]&type=[代码类型]" frameborder="0" scrolling="no" width="100%" height="500px"></iframe>
         var embedCode = '<iframe src="https://azkbbys.github.io/code-viewer/code-viewer.html?code=' + encodeURIComponent(codeText) + '&type=' + document.getElementById("code-type").value + '" frameborder="0" scrolling="no" width="100%" height="500px"></iframe>';
         // 复制嵌入代码到剪贴板
