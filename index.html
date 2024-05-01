@@ -44,22 +44,23 @@
         var codeType = document.getElementById("code-type").value;
 
         // 如果输入内容为空，则显示提示
-        if (codeInput.trim() === '') {
+        if (codeInput.trim() == '') {
             document.getElementById("code-output").innerHTML = "等待输入内容...";
         } else {
             // 转义HTML代码，替换特殊字符
-            // codeInput = codeInput.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            codeInput2 = codeInput.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             // 渲染代码
             var codeOutput = document.getElementById("code-output");
-            codeOutput.innerHTML = '<pre><code class="language-' + codeType + '">' + codeInput + '</code></pre>';
+            codeOutput.innerHTML = '<pre><code class="language-' + codeType + '">' + codeInput2 + '</code></pre>';
             // 代码高亮
             hljs.highlightBlock(codeOutput.getElementsByTagName('code')[0]);
         }
+        return codeInput;
     }
 
     // 复制代码的函数
     function copyCode() {
-        var codeText = document.getElementById("code-output").textContent;
+        var codeText = renderCode();
         var tempTextArea = document.createElement('textarea');
         tempTextArea.value = codeText;
         document.body.appendChild(tempTextArea);
