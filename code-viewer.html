@@ -23,6 +23,8 @@
         var urlParams = new URLSearchParams(window.location.search);
         var codeParam = urlParams.get('code');
         var typeParam = urlParams.get('type');
+        // 乱码还原
+        codeParam = decodeURIComponent(codeParam);
         // 将&gt;和&lt;替换成>和<
         codeParam = codeParam.replace('&gt;', '>').replace('&lt;', '<');
 
